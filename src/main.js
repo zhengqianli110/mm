@@ -8,6 +8,8 @@ Vue.config.productionTip = false
 import router from './ruoter/index.js'
 // 导入 element-ui
 import '@/plugins/element.js'
+// 导入 axios
+import '@/utils/request.js'
 
 new Vue({
   render: h => h(App),

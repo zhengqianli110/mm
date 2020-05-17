@@ -119,35 +119,58 @@ export default {
   methods: {
     loginClick() {
       // 点击提交 效验 一下
-      this.$refs.loginFormRef.validate(valid => {
+      this.$refs.loginFormRef.validate(async valid => {
         if (!valid) return;
+        //这是正常的用 promise .then   的方法去请求
         // 效验成功 请求
-        this.$axios({
-          method: "post",
-          url: "/login",
-          data: this.loginForm
-        }).then(res => {
-          // console.log(res.data);
-          if (res.data.code == 200) {
-            // 提示登陆成功
-            this.$message({
-              message: "恭喜你，登陆成功",
-              type: "success"
-            });
-            // 保存token
-            setToken(res.data.data.token);
-            // 跳转到后台管理页面
-            this.$router.push("/layout");
-          } else {
-            // 提示出错
-            this.$message.error(res.data.message);
-            // 吧验证码从新请求一下
-            this.loginUrl =
-              process.env.VUE_APP_BASEURL +
-              "/captcha?type=login&r=" +
-              Math.random();
-          }
-        });
+        // this.$axios({
+        //   method: "post",
+        //   url: "/login",
+        //   data: this.loginForm
+        // }).then(res => {
+        //   // console.log(res.data);
+        //   if (res.data.code == 200) {
+        //     // 提示登陆成功
+        //     this.$message({
+        //       message: "恭喜你，登陆成功",
+        //       type: "success"
+        //     });
+        //     // 保存token
+        //     setToken(res.data.data.token);
+        //     // 跳转到后台管理页面
+        //     this.$router.push("/layout");
+        //   } else {
+        //     // 提示出错
+        //     this.$message.error(res.data.message);
+        //     // 吧验证码从新请求一下
+        //     this.loginUrl =
+        //       process.env.VUE_APP_BASEURL +
+        //       "/captcha?type=login&r=" +
+        //       Math.random();
+        //   }
+        // });
+
+        // 这里是 用 async（在他最近的函数上加）和这个await 的方法 去掉了 .then() 的写法 这样 结构更加清晰
+        let res = await this.$axios.post("/login", this.loginForm);
+        if (res.data.code == 200) {
+          // 提示登陆成功
+          this.$message({
+            message: "恭喜你，登陆成功",
+            type: "success"
+          });
+          // 保存token
+          setToken(res.data.data.token);
+          // 跳转到后台管理页面
+          this.$router.push("/layout");
+        } else {
+          // 提示出错
+          this.$message.error(res.data.message);
+          // 吧验证码从新请求一下
+          this.loginUrl =
+            process.env.VUE_APP_BASEURL +
+            "/captcha?type=login&r=" +
+            Math.random();
+        }
       });
     },
     getUrl() {

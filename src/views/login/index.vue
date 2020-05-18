@@ -39,19 +39,27 @@
           <el-button style="width:100%" type="primary" @click="loginClick">登录</el-button>
         </el-form-item>
         <el-form-item>
-          <el-button style="width:100%" type="primary">注册</el-button>
+          <el-button style="width:100%" type="primary" @click="register">注册</el-button>
         </el-form-item>
       </el-form>
     </div>
     <div class="right">
       <img src="@/assets/login_bg.png" alt />
     </div>
+    <!-- 注册的弹出框 子组件 -->
+    <register ref="registerbox"></register>
   </div>
 </template>
 
 <script>
+// 导入子组件
+import register from "@/views/login/register";
 import { setToken } from "@/utils/token";
 export default {
+  // 注册子组件 之后就当标签用
+  components: {
+    register
+  },
   name: "Login", // 这写个名字 我们调试 什么的就能一下搜索定位到这里
   data() {
     return {
@@ -179,6 +187,10 @@ export default {
       // console.log(1111);
       this.loginUrl =
         process.env.VUE_APP_BASEURL + "/captcha?type=login&r=" + Math.random();
+    },
+    // 这是注册 按钮点击事件 去控制子组件里面data 里的值
+    register() {
+      this.$refs.registerbox.dialogVisible = true;
     }
   }
 };

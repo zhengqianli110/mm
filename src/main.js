@@ -5,7 +5,7 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 // 导入路由
-import router from './ruoter/index.js'
+import router from './router/index.js'
 // 导入 element-ui
 import '@/plugins/element.js'
 // 导入 axios

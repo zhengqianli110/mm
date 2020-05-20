@@ -47,7 +47,10 @@
               <el-input v-model.number="registerForm.rcode"></el-input>
             </el-col>
             <el-col style="margin-left:10px" :span="6">
-              <el-button @click="getRcode">获取用户验证码</el-button>
+              <el-button @click="getRcode" :disabled="times>0&&times<60">
+                <span v-if="times>0&&times<60">倒计时:{{times}}</span>
+                <span v-else>获取用户验证码</span>
+              </el-button>
             </el-col>
           </el-row>
         </el-form-item>
@@ -72,6 +75,8 @@ export default {
       dialogVisible: false,
       imageUrl: "", // 头像
       codeUrl: process.env.VUE_APP_BASEURL + "/captcha?type=sendsms", //   图像码的图片
+      times: 60, // 这个假装 手机手验证码
+
       registerForm: {
         username: "", // 用户名
         phone: "", // 手机号
@@ -160,11 +165,21 @@ export default {
     },
     // 获取验证码
     async getRcode() {
+      // 倒计时 按钮不可用
+      this.times--;
+      let timeout = setInterval(() => {
+        this.times--;
+        if (this.times == 0) {
+          this.times == 60;
+          clearInterval(timeout);
+        }
+      }, 1000);
       let res = await this.$axios.post("/sendsms", {
         code: this.registerForm.code,
         phone: this.registerForm.phone
       });
       if (res.data.code == 200) {
+        // 验证码赋值
         this.registerForm.rcode = res.data.data.captcha;
       } else {
         this.$message.error(res.data.message);

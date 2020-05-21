@@ -59,7 +59,7 @@ const router = new VueRouter({
 })
 
 
-// 前置守卫  每个路由跳转都要拦截 判断是否有token
+// 导航守卫  每个路由跳转都要拦截 判断是否有token
 router.beforeEach((to, from, next) => {
     // console.log('to------', to);
     // console.log('from------', from);

@@ -169,7 +169,7 @@ export default {
           // 保存token
           setToken(res.data.data.token);
           // 跳转到后台管理页面
-          this.$router.push("/layout");
+          this.$router.push("/layout/user");
         } else {
           // 提示出错
           this.$message.error(res.data.message);

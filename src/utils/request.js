@@ -16,6 +16,7 @@ import {
 } from "@/utils/token";
 // 导入路由
 import router from '@/router'
+// 请求拦截器发送请求就来到这里
 axios.interceptors.request.use(function (config) {
     //在发送请求之前做某事
     const token = getToken()
@@ -28,7 +29,7 @@ axios.interceptors.request.use(function (config) {
     return Promise.reject(error)
 });
 
-// 相应拦截器  想赢回来数据前 先到这里
+// 响应拦截器  想赢回来数据前 先到这里
 // Add a response interceptor
 axios.interceptors.response.use(function (response) {
     if (response.data.code === 206) {
@@ -42,5 +43,5 @@ axios.interceptors.response.use(function (response) {
     // Do something with response error
     return Promise.reject(error);
 });
-
+// 原型中写这个方法
 Vue.prototype.$axios = axios;

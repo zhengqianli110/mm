@@ -20,7 +20,7 @@
           class="el-menu-vertical-demo"
           :collapse="isCollapse"
           router
-          default-active="/layout/chart"
+          :default-active="defaultActive"
         >
           <el-menu-item index="/layout/chart">
             <i class="el-icon-pie-chart"></i>
@@ -62,12 +62,18 @@ import { removeToken } from "@/utils/token";
 export default {
   data() {
     return {
-      username: "",
-      avatar: "",
-      isCollapse: false
+      username: "", // 用户名
+      avatar: "", // 用户头像
+      isCollapse: false, // 控制左边栏的隐藏显示
+      defaultActive: "/layout/user" //  控制选中 高亮
+      // defaultActive: "" // 菜单选中的值
     };
   },
   created() {
+    // 进来能拿到路由
+    // console.log(this.$route);
+    // 赋值给 defaultActive这样他就选中了
+    this.defaultActive = this.$route.fullPath;
     this.getinfo();
   },
   methods: {

@@ -5,7 +5,7 @@
     <br />
     <br />
     <div class="child1">
-      <child1></child1>
+      <child1 ></child1>
     </div>
     <div class="child2">
       <child2></child2>

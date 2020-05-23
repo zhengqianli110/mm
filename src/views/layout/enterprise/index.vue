@@ -181,6 +181,10 @@ export default {
       };
       this.$refs.addAndupdata.mode = "add";
       this.$refs.addAndupdata.dialogVisible = true;
+      // 清除效验
+      this.$nextTick(() => {
+        this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
+      });
     },
     // 编辑 点击事件
     updataEnterprise(obj) {
@@ -193,6 +197,10 @@ export default {
       this.$refs.addAndupdata.addEmterpriseForm = JSON.parse(
         JSON.stringify(obj)
       );
+      // 清除效验
+      this.$nextTick(() => {
+        this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
+      });
     }
   }
 };

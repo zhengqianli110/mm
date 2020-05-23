@@ -112,23 +112,24 @@ export default {
       // 效验
       this.$refs.userEditFormRef.validate(async valid => {
         if (!valid) return; // 判断有没填  就 终止执行
-        let res = null;
-        res = await this.$axios({
-          method: "post",
-          url: "/user/add",
-          data: {
-            ...this.userForm
-          }
-        });
-
         // let res = null;
-        // // 判断复用的 框是哪个
-        // if (this.mode === "add") {
-        //   // 请求
-        //   res = await this.$axios.post("/user/add", this.userForm);
-        // } else {
-        //   // 修改
-        // }
+        // res = await this.$axios({
+        //   method: "post",
+        //   url: "/user/add",
+        //   data: {
+        //     ...this.userForm
+        //   }
+        // });
+
+        let res = null;
+        // 判断复用的 框是哪个
+        if (this.mode === "add") {
+          // 请求
+          res = await this.$axios.post("/user/add", this.userForm);
+        } else {
+          // 修改
+          res = await this.$axios.post("/user/edit", this.userForm);
+        }
         // 请求 提示成功
         if (res.data.code == 200) {
           // 提示 成功

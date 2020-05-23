@@ -17,9 +17,19 @@ import User from "@/views/layout/user"
 import Enterprise from "@/views/layout/enterprise"
 import Question from "@/views/layout/question"
 import Subject from "@/views/layout/subject"
+
+// 案例 test里面的测试路由
+import Parent from '@/test/parent-child-broble/parent.vue'
 // 实例化
 const router = new VueRouter({
-    routes: [{
+    routes: [
+        // 测试路由
+        {
+            path: '/parent',
+            component: Parent
+        },
+
+        {
             // 重定向
             path: '/',
             redirect: '/login'

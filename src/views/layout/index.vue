@@ -65,8 +65,7 @@ export default {
       username: "", // 用户名
       avatar: "", // 用户头像
       isCollapse: false, // 控制左边栏的隐藏显示
-      defaultActive: "/layout/user" //  控制选中 高亮
-      // defaultActive: "" // 菜单选中的值
+      defaultActive: "" //  控制选中 高亮
     };
   },
   created() {

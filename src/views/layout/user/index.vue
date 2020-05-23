@@ -42,7 +42,7 @@
         </el-table-column>
         <el-table-column label="操作" width="260">
           <template slot-scope="scope">
-            <el-button type="primary">编辑</el-button>
+            <el-button type="primary" @click="updata(scope.row)">编辑</el-button>
             <el-button
               @click="changeStatus(scope.row.id)"
               :type="scope.row.status===0 ? 'success':'info'"
@@ -118,8 +118,6 @@ export default {
       this.$refs.searchFormRef.resetFields();
       this.search();
     },
-    // 搜索按钮点击事件
-    primary() {},
     // 分页  每页显示几条数据 改变时
     handleSizeChange(val) {
       // console.log(val);
@@ -169,10 +167,37 @@ export default {
     },
     // 新增和编辑点击事件  弹框
     adduser() {
+      // 每次打开 吧里面填的内容清空
+      this.$refs.addOrUp.userForm = {
+        username: "", // 用户名
+        email: "", // 邮箱
+        phone: "", // 手机号
+        role_id: "", // 角色 1：超级管理员 2：管理员 3：老师 4：学生
+        status: "", // 状态 1：启用 0：禁用
+        remark: "" // 备注
+      };
       // 控制弹窗
       this.$refs.addOrUp.dialogVisible = true;
       // 标识下两个按钮  来控制 公用的组件的标题 改变
       this.$refs.addOrUp.mode = "add";
+      // 清空效验
+      this.$nextTick(() => {
+        // dialong中的form表单渲染完成之后，会自动调用 这个回调函数
+        this.$refs.addOrUp.$refs.userEditFormRef.clearValidate();
+      });
+    },
+    // 点击编辑按钮  复用的框 mode改一下  然后吧scope.row 拿到这一项的数据 赋值给表单显示出来
+    updata(obj) {
+      this.$refs.addOrUp.mode = "edit";
+      // 深克隆  吧这个 对象赋值给子组件的 这个表单对象
+      this.$refs.addOrUp.userForm = JSON.parse(JSON.stringify(obj));
+      // 控制弹窗
+      this.$refs.addOrUp.dialogVisible = true;
+      // 清空效验
+      this.$nextTick(() => {
+        // dialong中的form表单渲染完成之后，会自动调用 这个回调函数
+        this.$refs.addOrUp.$refs.userEditFormRef.clearValidate();
+      });
     }
   }
 };

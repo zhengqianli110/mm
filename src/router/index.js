@@ -20,6 +20,7 @@ import Subject from "@/views/layout/subject"
 
 // 案例 test里面的测试路由
 import Parent from '@/test/parent-child-broble/parent.vue'
+import Slotall from '@/test/slotall'
 // 实例化
 const router = new VueRouter({
     routes: [
@@ -27,6 +28,10 @@ const router = new VueRouter({
         {
             path: '/parent',
             component: Parent
+        },
+        {
+            path: '/slotall',
+            component: Slotall
         },
 
         {

@@ -1,11 +1,13 @@
 <template>
   <div class="parent">
     我是父组件
+    食物的名字是：{{foodname}}
+    价格是：{{foodprice}}
     <br />
     <br />
     <br />
     <div class="child1">
-      <child1 ></child1>
+      <child1 @sendFood="getfood" :list="foodlist"></child1>
     </div>
     <div class="child2">
       <child2></child2>
@@ -23,8 +25,19 @@ export default {
   },
   data() {
     return {
-      food: {}
+      foodname: "",
+      foodprice: "",
+      foodlist: [
+        { name: "炒饭", price: 20 },
+        { name: "乌鸡汤", price: 30 }
+      ]
     };
+  },
+  methods: {
+    getfood(obj) {
+      this.foodname = obj.name;
+      this.foodprice = obj.price;
+    }
   }
 };
 </script>

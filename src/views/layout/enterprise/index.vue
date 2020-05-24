@@ -132,7 +132,7 @@ export default {
           type: "success"
         });
         // 要刷新 改完要刷新 调用搜索
-        this.searchEnterprise();
+        this.getEnterpriseForm();
       }
     },
     // 删除按钮的点击事件   发请求提示确认是否要删除 删除完刷新
@@ -181,26 +181,38 @@ export default {
       };
       this.$refs.addAndupdata.mode = "add";
       this.$refs.addAndupdata.dialogVisible = true;
-      // 清除效验
-      this.$nextTick(() => {
-        this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
-      });
+      // 清除效验  写在了弹出框组件里面
+      // this.$nextTick(() => {
+      //   this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
+      // });
     },
     // 编辑 点击事件
     updataEnterprise(obj) {
+      // 显示点击的这个企业的数据 把这行数据传过来
+      // console.log(obj);
+      // this.$refs.addAndupdata.addEmterpriseForm = JSON.parse(
+      //   JSON.stringify(obj)
+      // );
+      // 我这里传值后台不要那么多
+      // 解构语法
+      // console.log(obj);
+      const { id, eid, intro, name, short_name, remark } = obj;
+      this.$refs.addAndupdata.addEmterpriseForm = {
+        id,
+        eid,
+        name,
+        short_name,
+        intro,
+        remark
+      };
       // 子组件 mode 改成不是add
       this.$refs.addAndupdata.mode = "updata";
       //  弹出 那个框
       this.$refs.addAndupdata.dialogVisible = true;
-      // 显示点击的这个企业的数据 把这行数据传过来
-      // console.log(obj);
-      this.$refs.addAndupdata.addEmterpriseForm = JSON.parse(
-        JSON.stringify(obj)
-      );
       // 清除效验
-      this.$nextTick(() => {
-        this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
-      });
+      // this.$nextTick(() => {
+      //   this.$refs.addAndupdata.$refs.EmterpriseForm.clearValidate();
+      // });
     }
   }
 };

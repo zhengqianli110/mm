@@ -56,6 +56,19 @@ export default {
       }
     };
   },
+  watch: {
+    dialogVisible(val) {
+      // if (val) {
+      //   this.$nextTick(() => {
+      //     this.$refs.EmterpriseForm.clearValidate();
+      //   });
+      // }
+      // 效果更好 隐藏时 清除 跟上面呢个对比 上面的会红色会闪动
+      if (!val) {
+        this.$refs.EmterpriseForm.clearValidate();
+      }
+    }
+  },
   methods: {
     // 弹出框 确定的点击事件  提交信息发请求 一个请求是新增一个是编辑
     // 先效验

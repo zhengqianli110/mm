@@ -8,7 +8,7 @@
         <el-form-item label="学科名称" prop="name">
           <el-input v-model="subjectForm.name" style="width:150px"></el-input>
         </el-form-item>
-        <el-form-item label="学科编号" prop="username">
+        <el-form-item label="创建者" prop="username">
           <el-input v-model="subjectForm.username" style="width:150px"></el-input>
         </el-form-item>
         <el-form-item label="状态" prop="status">

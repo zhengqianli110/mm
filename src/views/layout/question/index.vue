@@ -138,7 +138,8 @@
 
         <el-table-column label="操作" width="280">
           <template slot-scope="scope">
-            <el-button type="primary">编辑</el-button>
+            <!-- 点击编辑吧  把这一行的数据 传过来 显示 -->
+            <el-button type="primary" @click="editSubject(scope.row)">编辑</el-button>
             <el-button
               @click="changebtn(scope.row.id)"
               :type="scope.row.status === 0 ? 'success' : 'info'"
@@ -147,6 +148,18 @@
           </template>
         </el-table-column>
       </el-table>
+      <div style="margin-top:15px;text-align:center;">
+        <el-pagination
+          @size-change="sizeChange"
+          @current-change="currentChange"
+          :current-page="page"
+          :page-sizes="[2, 5, 10]"
+          :page-size="limit"
+          layout="total, sizes, prev, pager, next, jumper"
+          :total="total"
+          background
+        ></el-pagination>
+      </div>
     </el-card>
     <addAndUpquestion
       ref="addAndUpquestion"
@@ -168,6 +181,7 @@ export default {
   },
   data() {
     return {
+      mode: "",
       subjectList: [], // 学科列表
       enterpriseList: [], // 企业列表
       stepObj: { 1: "初级", 2: "中级", 3: "高级" }, //阶段
@@ -230,6 +244,16 @@ export default {
         this.total = res.data.data.pagination.total;
       }
     },
+    // 页容量发生了改变
+    sizeChange(val) {
+      this.limit = val;
+      this.seachlist();
+    },
+    // 当前页发生了改变
+    currentChange(val) {
+      this.page = val;
+      this.getEnterpriseListData();
+    },
     // 搜索功能
     seachlist() {
       this.page = 1;
@@ -241,8 +265,81 @@ export default {
       this.seachlist();
     },
     // 新增点击事件
+    // 给mode 给成add  弹框弹出来
+    // 清除  数据
     addquestion() {
+      // 给mode 给成add
       this.$refs.addAndUpquestion.mode = "add";
+      // 清除  数据  初始化数据
+      this.$refs.addAndUpquestion.questionForms = {
+        subject: "", // 学科
+        step: "", // 阶段
+        enterprise: "", // 企业
+        city: [], // 城市
+        type: "1", // 题型
+        difficulty: "2", // 难度
+        title: "", //  试题标题
+        answer_analyze: "", // 试题答案
+        remark: "", //  试题备注
+        single_select_answer: "", //单选题答案
+        multiple_select_answer: [], //多选题答案
+        short_answer: "", // 简答题答案
+        video: "", //视频地址
+        select_options: [
+          // 选项，介绍，图片介绍
+          {
+            label: "A",
+            text: "狗不理",
+            image: ""
+          },
+          {
+            label: "B",
+            text: "猫不理",
+            image: ""
+          },
+          {
+            label: "C",
+            text: "麻花",
+            image: ""
+          },
+          {
+            label: "D",
+            text: "炸酱面",
+            image: ""
+          }
+        ]
+      };
+      //  弹框弹出来
+      this.$refs.addAndUpquestion.dialogVisible = true;
+    },
+    //  编辑按钮    row 拿到点击的这一项的内容
+    editSubject(row) {
+      // 吧mode 改成 edit
+      this.$refs.addAndUpquestion.mode = "edit";
+      // 显示对应的内容   深克隆 显示对应的 数据
+      this.$refs.addAndUpquestion.questionForms = JSON.parse(
+        JSON.stringify(row)
+      );
+      // 发现 有问题   阶段  城市 单选  显示的不对 后台返回的数据 不和我们要求
+      //   城市 后台返回的数据是个字符串   城市我们要转成数组
+      // 阶段  难度  题型  我们要的是字符串 他返回的是数字 在组件里面改了
+      //   城市
+      if (row.city) {
+        //  吧城市的字符串 改成数组
+        this.$refs.addAndUpquestion.questionForms.city = row.city.split(",");
+      } else {
+        this.$refs.addAndUpquestion.questionForms.city = [];
+      }
+      // 多选答案 后台返回的也是个字符串  我们要转成数组 才能正常显示
+      if (row.multiple_select_answer) {
+        this.$refs.addAndUpquestion.questionForms.multiple_select_answer = row.multiple_select_answer.split(
+          ","
+        );
+      } else {
+        this.$refs.addAndUpquestion.questionForms.multiple_select_answer = [];
+      }
+
+      // 弹框弹出
       this.$refs.addAndUpquestion.dialogVisible = true;
     },
     // 状态改变 点击事件

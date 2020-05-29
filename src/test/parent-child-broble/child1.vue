@@ -24,9 +24,11 @@ export default {
   },
   props: ["list"],
   methods: {
+    // 子传父
     giveparent() {
       this.$emit("sendFood", this.food);
     },
+    // 子传子
     givechild() {
       bus.$emit("getdongman", this.dongman);
     }

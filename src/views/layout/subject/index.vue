@@ -44,7 +44,7 @@
           <template slot-scope="scope">
             <el-button type="primary" @click="editSubject(scope.row)">编辑</el-button>
             <el-button
-              @click="changeStatus(scope.row.id)"
+              @click="changeStatus( '/subject/status',scope.row.id)"
               :type="scope.row.status==0?'success':'info'"
             >{{scope.row.status==0?'启用':'禁用'}}</el-button>
             <el-button type="default" @click="defaultStatus(scope.row.id,scope.row.name)">删除</el-button>
@@ -71,7 +71,10 @@
 
 <script>
 import addAndUpdata from "@/views/layout/subject/add-updata";
+// 导入  混入的组件
+import common from "@/mixins/common";
 export default {
+  mixins: [common],
   name: "subject",
   components: {
     addAndUpdata
@@ -150,18 +153,18 @@ export default {
 
       this.$refs.addAndUpdata.dialogVisible = true;
     },
-    // 改变状态的点击事件
-    async changeStatus(id) {
-      const res = await this.$axios.post("/subject/status", { id });
-      if (res.data.code === 200) {
-        this.$message({
-          message: "更改状态成功",
-          type: "success"
-        });
-        // 调用 seach方法
-        this.search();
-      }
-    },
+    // 改变状态的点击事件  用混入 mixin
+    // async changeStatus(id) {
+    //   const res = await this.$axios.post("/subject/status", { id });
+    //   if (res.data.code === 200) {
+    //     this.$message({
+    //       message: "更改状态成功",
+    //       type: "success"
+    //     });
+    //     // 调用 seach方法
+    //     this.search();
+    //   }
+    // },
     // 删除的点击事件
     defaultStatus(id, name) {
       this.$confirm(`确定要删除${name}吗？`, "提示", {

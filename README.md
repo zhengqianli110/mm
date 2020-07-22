@@ -1,4 +1,4 @@
-# heimamm
+# imamm
 
 ## Project setup
 ```
